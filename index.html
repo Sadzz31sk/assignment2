@@ -3,33 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Application Registration</title>
+    <title>Online Application Registration Form</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>Application Registration Form</h1>
-        <form id="registrationForm">
-            <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" required>
+        <div class="form-wrapper">
+            <div class="form-header">
+                <i class="fas fa-user-plus"></i>
+                <h1>Online Application Registration</h1>
+                <p>Please fill out the form below to register</p>
+            </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <form id="registrationForm" action="process.php" method="POST" enctype="multipart/form-data">
+                
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <h2><i class="fas fa-user"></i> Personal Information</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name <span class="required">*</span></label>
+                            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                            <span class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lastName">Last Name <span class="required">*</span></label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                            <span class="error-message"></span>
+                        </div>
+                    </div>
 
-            <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" placeholder="example@email.com" required>
+                            <span class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" placeholder="123-456-7890" required>
+                            <span class="error-message"></span>
+                        </div>
+                    </div>
 
-            <label for="address">Address:</label>
-            <textarea id="address" name="address" required></textarea>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dob">Date of Birth <span class="required">*</span></label>
+                            <input type="date" id="dob" name="dob" required>
+                            <span class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Gender <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="gender" value="Male" required>
+                                    <span>Male</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="gender" value="Female" required>
+                                    <span>Female</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="gender" value="Other" required>
+                                    <span>Other</span>
+                                </label>
+                            </div>
+                            <span class="error-message"></span>
+                        </div>
+                    </div>
+                </div>
 
-            <label for="address">course enrolled in:</label>
-            <textarea id="course" name="course" required></textarea>
+                <!-- Address Information Section -->
+                <div class="form-section">
+                    <h2><i class="fas fa-map-marker-alt"></i> Address Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="address">Street Address <span class="required">*</span></label>
+                        <input type="text" id="address" name="address" placeholder="Enter your street address" required>
+                        <span class="error-message"></span>
+                    </div>
 
-            <button type="submit">Submit Application</button>
-        </form>
-        <div id="result"></div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City <span class="required">*</span></label>
+                            <input type="text" id="city" name="city" placeholder="Enter your city" required>
+                            <span class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="state">State/Province <span class="required">*</span></label>
+                            <input type="text" id="state" name="state" placeholder="Enter your state" required>
+                            <span class="error-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="zipCode">ZIP/Postal Code <span class="required">*</span></label>
+                            <input type="text" id="zipCode" name="zipCode" placeholder="12345" required>
+                            <span class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="country">Country <span class="required">*</span></label>
+                            <select id="country" name="country" required>
+                                <option value="">Select Country</option>
+                                <option value="USA">United States</option>
+                                <option value="Canada">Canada</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="India">India</option>
+                                <option value="Australia">Australia</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span class="error-message"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Educational Background Section -->
+                <div class="form-section">
+                    <h2><i class="fas fa-graduation-cap"></i> Educational Background</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="qualification">Highest Qualification <span class="required">*</span></label>
+                            <select id="qualification" name="qualification" required>
+                                <option value="">Select Qualification</option>
+                                <option value="High School">High School</option>
+                                <option value="Associate Degree">Associate Degree</option>
+                                <option value="Bachelor's Degree">Bachelor's Degree</option>
+                                <option value="Master's Degree">Master's Degree</option>
+                                <option value="PhD">PhD</option>
+                            </select>
+                            <span class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="institution">Institution Name <span class="required">*</span></label>
+                            <input type="text" id="institution" name="institution" placeholder="Enter institution name" required>
+                            <span class="error-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fieldOfStudy">Field of Study <span class="required">*</span></label>
+                            <input type="text" id="fieldOfStudy" name="fieldOfStudy" placeholder="e.g., Computer Science" required>
+                            <span class="error-message"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="graduationYear">Graduation Year <span class="required">*</span></label>
+                            <input type="number" id="graduationYear" name="graduationYear" placeholder="2024" min="1950" max="2030" required>
+                            <span class="error-message"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Professional Information Section -->
+                <div class="form-section">
+                    <h2><i class="fas fa-briefcase"></i> Professional Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="experience">Years of Experience</label>
+                        <input type="number" id="experience" name="experience" placeholder="0" min="0" max="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="skills">Skills & Expertise <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills[]" value="HTML/CSS">
+                                <span>HTML/CSS</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills[]" value="JavaScript">
+                                <span>JavaScript</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills[]" value="PHP">
+                                <span>PHP</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills[]" value="Python">
+                                <span>Python</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills[]" value="Java">
+                                <span>Java</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="skills[]" value="Database">
+                                <span>Database</span>
+                            </label>
+                        </div>
+                        <span class="error-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resume">Upload Resume (PDF only)</label>
+                        <input type="file" id="resume" name="resume" accept=".pdf">
+                        <span class="file-info">Maximum file size: 5MB</span>
+                    </div>
+                </div>
+
+                <!-- Additional Information Section -->
+                <div class="form-section">
+                    <h2><i class="fas fa-info-circle"></i> Additional Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="comments">Comments/Additional Information</label>
+                        <textarea id="comments" name="comments" rows="5" placeholder="Enter any additional information..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label terms-label">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <span>I agree to the <a href="#" target="_blank">Terms and Conditions</a> <span class="required">*</span></span>
+                        </label>
+                        <span class="error-message"></span>
+                    </div>
+                </div>
+
+                <!-- Form Buttons -->
+                <div class="form-actions">
+                    <button type="reset" class="btn btn-secondary">
+                        <i class="fas fa-redo"></i> Reset Form
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Application
+                    </button>
+                </div>
+
+                <!-- Loading Spinner -->
+                <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Processing your application...</p>
+                </div>
+
+            </form>
+        </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="script.js"></script>
 </body>
 </html>
